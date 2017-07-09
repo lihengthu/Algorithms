@@ -37,8 +37,7 @@ public class Solution {
                 p = p.left;
             }
             TreeNode node = stack.pop();
-            ++index;
-            if (index == k) return node;
+            if (++index == k) return node;
             p = node.right;
         }
         return kthNode;
