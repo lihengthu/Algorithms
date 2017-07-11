@@ -24,7 +24,7 @@ public class Solution {
     }
 }
 
-2. 待理解??? -- LeetCode Discuss
+2. LeetCode Discuss -- 已请教湘神
 public class Solution {
 
     public int[] maxSlidingWindow(int[] nums, int k) {
