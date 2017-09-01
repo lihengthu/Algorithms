@@ -31,7 +31,7 @@ class Solution {
     }
 }
 
-2. // Discuss 
+2. // Discuss 相当巧妙的解法
 class Solution {
     public int findMin(int[] nums) {
         if (nums == null || nums.length == 0)
