@@ -26,22 +26,20 @@ public class Solution {
     public void reOrderArray(int[] array) {
         if (array == null || array.length == 0) return;
         int i = 0, j;
-        while (i < array.length) {
-            while (i < array.length && !isEven(array[i]))
-                ++i;
+        while ( i < array.length) {
+            while (i < array.length && !isEven(array[i])) ++i;
             j = i + 1;
-            while (j < array.length && isEven(array[j]))
-                ++j;
+            while (j < array.length && isEven(array[j])) ++j;
             if (j < array.length) {
                 int tmp = array[j];
-                for (int k = j; j > i; --j)
-                    array[j] = array[j - 1];
+                for (int k = j - 1; k >= i; --k)
+                    array[k + 1] = array[k];
                 array[i++] = tmp;
             } else break;
         }
     }
 
     private boolean isEven(int n) {
-        return (n % 2 == 0) ? true : false;
+        return (n & 1) == 0;
     }
 }
