@@ -8,7 +8,7 @@ public class Solution {
         ArrayList<Integer> list = new ArrayList<>();
         if (matrix == null || matrix.length == 0) return list;
         int rows = matrix.length, columns = matrix[0].length;
-        int circle = (Math.min(rows, columns) + 1) / 2;
+        int circle = (Math.min(rows, columns) + 1) >> 1;
 
         for (int i = 0; i < circle; ++i) {
             for (int j = i; j < columns - i; ++j)
