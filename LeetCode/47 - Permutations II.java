@@ -3,7 +3,8 @@ Analysis:
 
 Solutions:
 
-1. 
+1. boolean[] used to indicate whether the value is added to list, sort the array to make sure we can skip the same value.
+when a number has the same value with its previous, we can use this number only if its previous is used;
 class Solution {
     public List<List<Integer>> permuteUnique(int[] nums) {
         List<List<Integer>> results = new ArrayList<>();
