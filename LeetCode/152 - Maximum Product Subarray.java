@@ -2,7 +2,7 @@ Analysis:
 
 Solutions:
 
-1. JiuZhang
+1. JiuZhang - O(n) space
 class Solution {
     public int maxProduct(int[] nums) {
         if (nums == null || nums.length == 0)
@@ -25,3 +25,25 @@ class Solution {
         return res;
     }
 }
+
+2. O(1) space
+class Solution {
+    public int maxProduct(int[] nums) {
+        if (nums == null || nums.length == 0)
+            return 0;
+        int minPre = nums[0], maxPre = nums[0];
+        int min = nums[0], max = nums[0];
+        int rst = nums[0];
+
+        for (int i = 1; i < nums.length; ++i) {
+            max = Math.max(nums[i], Math.max(maxPre * nums[i], minPre * nums[i]));
+            min = Math.min(nums[i],Math.min(maxPre * nums[i], minPre * nums[i]));
+            rst = Math.max(rst,max);
+            maxPre = max;
+            minPre = min;
+        }
+        return rst;
+    }
+}
+
+
