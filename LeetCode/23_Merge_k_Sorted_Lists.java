@@ -6,20 +6,28 @@ Solutions:
 1. PriorityQueue, O(nlogk), n means the total elements and k means the size of lists;
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        PriorityQueue<ListNode> pq = new PriorityQueue<>(new Comparator<ListNode>() {
+        if (lists == null || lists.length == 0) {
+            return null;
+        }
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(11, new Comparator<ListNode>() {
             @Override
             public int compare(ListNode o1, ListNode o2) {
                 return o1.val - o2.val;
             }
         });
-        ListNode dummy = new ListNode(-1), r = dummy;
-        for (ListNode node : lists)
-            if (node != null) pq.offer(node);
+        for (ListNode node : lists) {
+            if (node != null) {
+                pq.offer(node);
+            }
+        }
+        ListNode dummy = new ListNode(0), tail = dummy;
         while (!pq.isEmpty()) {
-            r.next = pq.poll();
-            r = r.next;
-            if (r.next != null)
-                pq.offer(r.next);
+            ListNode head = pq.poll();
+            tail.next = head;
+            tail = head;
+            if (head.next != null) {
+                pq.offer(head.next);
+            }
         }
         return dummy.next;
     }
