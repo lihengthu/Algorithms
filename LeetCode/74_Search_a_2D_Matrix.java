@@ -8,39 +8,30 @@ class Solution {
         }
         int rows = matrix.length;
         int cols = matrix[0].length;
-        int start = 0, end = rows - 1;
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-            if (matrix[mid][0] == target) {
-                return true;
-            } else if (matrix[mid][0] < target) {
-                start = mid;
+        int l = 0, r = rows;
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            if (matrix[mid][0] <= target) {
+                l = mid + 1;
             } else {
-                end = mid;
+                r = mid;
             }
         }
-        if (matrix[end][0] <= target) {
-            rows = end;
-        } else if (matrix[start][0] <= target) {
-            rows = start;
-        } else {
+        if (l - 1 == -1) {
             return false;
         }
-        start = 0;
-        end = cols - 1;
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-            if (matrix[rows][mid] == target) {
-                return true;
-            } else if (matrix[rows][mid] < target) {
-                start = mid;
+        rows = l - 1;
+        l = 0;
+        r = cols;
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            if (matrix[rows][mid] < target) {
+                l = mid + 1;
             } else {
-                end = mid;
+                r = mid;
             }
         }
-        if (matrix[rows][start] == target) {
-            return true;
-        } else if (matrix[rows][end] == target) {
+        if (l < cols && matrix[rows][l] == target) {
             return true;
         }
         return false;
