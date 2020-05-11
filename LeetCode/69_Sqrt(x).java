@@ -3,20 +3,17 @@ class Solution {
         if (x <= 1) {
             return x;
         }
-        int start = 1, end = x;
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
+        int l = 0, r = x;
+        while (l <= r) {
+            int mid = l + (r -l) / 2;
             if (mid == x / mid) {
                 return mid;
-            } else if (mid < x / mid) {
-                start = mid;
+            } else if (mid > x / mid){
+                r = mid - 1;
             } else {
-                end = mid;
+                l = mid + 1;
             }
         }
-        if (end > x / end) {
-            return start;
-        }
-        return end;
+        return r;
     }
 }
