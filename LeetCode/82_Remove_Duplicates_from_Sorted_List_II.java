@@ -1,18 +1,22 @@
-class Solution {
+Analysis: 
+    1. Two Pointers
+
+Solutions:
+
+1. 
+public class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        ListNode dummy = new ListNode(0);
+        if (head == null || head.next == null) return head;
+        ListNode dummy = new ListNode(-1);
         dummy.next = head;
-        ListNode p = head, prev = dummy;
-        while (p != null) {
-            while (p.next != null && p.val == p.next.val) {
-                p = p.next;
-            }
-            if (prev.next != p) {
-                prev.next = p.next;
-            } else {
-                prev = p;
-            }
-            p = p.next;
+        ListNode pre = dummy, cur = head;
+        while (cur != null) {
+            while (cur.next != null && cur.val == cur.next.val)
+                cur = cur.next;
+            if (pre.next == cur)
+                pre = pre.next;
+            else pre.next = cur.next;
+            cur = cur.next;
         }
         return dummy.next;
     }
