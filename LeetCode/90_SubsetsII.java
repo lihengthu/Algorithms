@@ -1,26 +1,28 @@
 class Solution {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-		List<List<Integer>>	result = new ArrayList<List<Integer>>();
-		if (nums == null) return result;
-		if (nums.length == 0){
-			result.add(new ArrayList<Integer>());
-			return result;
-		}
-		Arrays.sort(nums);
-		List<Integer> subset = new ArrayList<>();
-		helper(nums, 0, subset, result);
-		return result;
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null) {
+            return result;
+        }
+        if (nums.length == 0) {
+            result.add(new ArrayList<>());
+            return result;
+        }
+
+        Arrays.sort(nums);
+        backtrack(result, new ArrayList<>(), nums, 0);
+        return result;
     }
 
-	private void helper(int[] nums, int startIndex, List<Integer> subset,List<List<Integer>> result){
-		result.add(new ArrayList<Integer>(subset));
-		for (int i = startIndex; i < nums.length; ++i){
-			if (i != startIndex && nums[i] == nums[i - 1]){
-				continue;
-			}
-			subset.add(nums[i]);
-			helper(nums, i + 1, subset, result);
-			subset.remove(subset.size() - 1);
-		}
-	}
+    private void backtrack(List<List<Integer>> result, List<Integer> temp, int[] nums, int start) {
+        result.add(new ArrayList<>(temp));
+        for (int i = start; i < nums.length; i++) {
+            if (i != start && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            temp.add(nums[i]);
+            backtrack(result, temp, nums, i + 1);
+            temp.remove(temp.size() - 1);
+        }
+    }
 }
