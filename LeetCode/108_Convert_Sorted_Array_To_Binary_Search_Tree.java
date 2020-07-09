@@ -1,18 +1,25 @@
-1. Byself
-public TreeNode sortedArrayToBST(int[] nums) {
-        if (nums == null) {
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums == null || nums.length == 0) {
             return null;
         }
-        return createTreeNode(nums, 0, nums.length - 1);
+
+        return build(nums, 0, nums.length - 1);
     }
 
-    public TreeNode createTreeNode(int[] nums, int start, int end) {
-        if (start < 0 || end >= nums.length || start > end) {
+    private TreeNode build(int[] nums, int start, int end) {
+        if (start > end) {
             return null;
         }
-        int index = (start + end) >> 1;
-        TreeNode root = new TreeNode(nums[index]);
-        root.left = createTreeNode(nums, start, index - 1);
-        root.right = createTreeNode(nums, index + 1, end);
+        if (start == end) {
+            return new TreeNode(nums[start]);
+        }
+
+        int mid = (start + end) >>> 1;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = build(nums, start, mid - 1);
+        root.right = build(nums, mid + 1, end);
+
         return root;
     }
+}
