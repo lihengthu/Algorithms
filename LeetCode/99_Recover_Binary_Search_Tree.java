@@ -61,19 +61,19 @@ class Solution {
 class Solution {
     public void recoverTree(TreeNode root) {
         TreeNode first = null, second = null;
-        TreeNode pre = new TreeNode(Integer.MIN_VALUE);
+        TreeNode preIn = new TreeNode(Integer.MIN_VALUE);
 
         while (root != null) {
             if (root.left == null) {
-                if (pre.val > root.val) {
+                if (root.val < preIn.val) {
                     if (first == null) {
-                        first = pre;
+                        first = preIn;
                         second = root;
                     } else {
                         second = root;
                     }
                 }
-                pre = root;
+                preIn = root;
                 root = root.right;
             } else {
                 TreeNode prev = root.left;
@@ -85,15 +85,15 @@ class Solution {
                     prev.right = root;
                     root = root.left;
                 } else {
-                    if (pre.val > root.val) {
+                    if (root.val < preIn.val) {
                         if (first == null) {
-                            first = pre;
+                            first = preIn;
                             second = root;
                         } else {
                             second = root;
                         }
                     }
-                    pre = root;
+                    preIn = root;
                     prev.right = null;
                     root = root.right;
                 }
