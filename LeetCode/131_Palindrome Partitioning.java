@@ -1,4 +1,3 @@
-
 // 1. Backtracking
 class Solution {
     public List<List<String>> partition(String s) {
@@ -39,10 +38,7 @@ class Solution {
     }
 }
 
-// 2. DF + Backtracking
-import java.util.ArrayList;
-import java.util.List;
-
+// 2. DP + Backtracking
 class Solution {
     public List<List<String>> partition(String s) {
         List<List<String>> result = new ArrayList<>();
@@ -77,5 +73,4 @@ class Solution {
             }
         }
     }
-
 }
