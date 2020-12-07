@@ -55,7 +55,6 @@ public class LRUCache {
         this.keyToPrev = new HashMap<>();
         this.dummy = new ListNode(0, 0);
         this.tail = dummy;
-
     }
 
     private void moveToTail(int key) {
@@ -70,11 +69,7 @@ public class LRUCache {
         tail.next = curr;
         curr.next = null;
 
-
-        if (prev.next != null) {
-            keyToPrev.put(prev.next.key, prev);
-        }
-
+        keyToPrev.put(prev.next.key, prev);
         keyToPrev.put(curr.key, tail);
         tail = curr;
     }
@@ -109,5 +104,70 @@ public class LRUCache {
         first.val = value;
         keyToPrev.put(key, dummy);
         moveToTail(key);
+    }
+}
+
+// 3. Double Linked List
+class LRUCache {
+    class ListNode {
+        int key, val;
+        ListNode prev, next;
+
+        public ListNode(int key, int val) {
+            this.key = key;
+            this.val = val;
+            this.prev = null;
+            this.next = null;
+        }
+    }
+
+    private ListNode dummy, tail;
+    private int capacity;
+    private Map<Integer, ListNode> map;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        map = new HashMap<>();
+        dummy = new ListNode(0, 0);
+        tail = new ListNode(0, 0);
+        dummy.next = tail;
+        tail.prev = dummy;
+    }
+
+    private void moveTail(ListNode curr) {
+        curr.prev = tail.prev;
+        tail.prev = curr;
+        curr.prev.next = curr;
+        curr.next = tail;
+    }
+
+    public int get(int key) {
+        if (!map.containsKey(key)) {
+            return -1;
+        }
+
+        ListNode curr = map.get(key);
+        curr.prev.next = curr.next;
+        curr.next.prev = curr.prev;
+
+        moveTail(curr);
+        return map.get(key).val;
+    }
+
+    public void put(int key, int value) {
+        if (get(key) != -1) {
+            map.get(key).val = value;
+            return;
+        }
+
+        if (map.size() == capacity) {
+            map.remove(dummy.next.key);
+            dummy.next = dummy.next.next;
+            dummy.next.prev = dummy;
+        }
+
+        ListNode curr = new ListNode(key, value);
+        map.put(key, curr);
+        moveTail(curr);
     }
 }
