@@ -1,7 +1,3 @@
-Analysis: 
-    
-Solutions:
-
 1. DFS
 class Solution {
     public int pathSum(TreeNode root, int sum) {

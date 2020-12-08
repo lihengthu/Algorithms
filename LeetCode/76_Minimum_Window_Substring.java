@@ -2,13 +2,10 @@ class Solution {
     public String minWindow(String s, String t) {
         Map<Character, Integer> map = new HashMap<>();
         for (char ch : t.toCharArray()) {
-            if (map.containsKey(ch)) {
-                map.put(ch, map.get(ch) + 1);
-            } else {
-                map.put(ch, 1);
-            }
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
         }
-        int l = 0, minL = 0, minLen = s.length() + 1, cnt = 0;
+
+        int l = 0, minLeft = 0, minLen = s.length() + 1, cnt = 0;
         for (int r = 0; r < s.length(); r++) {
             char ch = s.charAt(r);
             if (map.containsKey(ch)) {
@@ -16,9 +13,10 @@ class Solution {
                 if (map.get(ch) >= 0) {
                     cnt++;
                 }
+
                 while (cnt == t.length()) {
                     if (r - l + 1 < minLen) {
-                        minL = l;
+                        minLeft = l;
                         minLen = r - l + 1;
                     }
                     char lch = s.charAt(l);
@@ -32,9 +30,10 @@ class Solution {
                 }
             }
         }
+
         if (minLen > s.length()) {
             return "";
         }
-        return s.substring(minL, minL + minLen);
+        return s.substring(minLeft, minLeft + minLen);
     }
 }
