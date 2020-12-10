@@ -1,4 +1,3 @@
-// dp[i] = min{dp[j] + 1} (j < i 并且 s[j + 1], s[j + 2], ... , s[i] 是回文串)
 class Solution {
     public int minCut(String s) {
         if (s == null || s.length() == 0) {
@@ -6,26 +5,24 @@ class Solution {
         }
 
         int n = s.length();
-        boolean[][] isPalin = new boolean[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j <= i; j++) {
-                if (s.charAt(i) == s.charAt(j) && (i - j <= 2 || isPalin[j + 1][i - 1])) {
-                    isPalin[j][i] = true;
-                }
+        boolean[][] dp = new boolean[n][n];
+        for (int j = 0; j < n; j++) {
+            for (int i = 0; i <= j; i++) {
+                dp[i][j] = s.charAt(i) == s.charAt(j) && (j - i + 1 <= 3 || dp[i + 1][j - 1]);
             }
         }
 
         int[] f = new int[n + 1];
         f[0] = 0;
-        for (int i = 1; i <= n; i++) {
-            f[i] = Integer.MAX_VALUE;
-            for (int j = 0; j < i; j++) {
-                if (isPalin[j][i - 1]) {
-                    f[i] = Math.min(f[i], f[j] + 1);
+        // j扩了一个维度
+        for (int j = 1; j <= n; j++) {
+            f[j] = Integer.MAX_VALUE;
+            for (int i = 0; i < j; i++) {
+                if (dp[i][j - 1]) {
+                    f[j] = Math.min(f[j], f[i] + 1);
                 }
             }
         }
-
         return f[n] - 1;
     }
 }
