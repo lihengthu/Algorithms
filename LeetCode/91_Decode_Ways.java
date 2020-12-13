@@ -4,10 +4,11 @@ class Solution {
             return 0;
         }
 
-        int[] dp = new int[s.length() + 1];
+        int n = s.length();
+        int[] dp = new int[n + 1];
         dp[0] = 1;
         dp[1] = s.charAt(0) != '0' ? 1 : 0;
-        for (int i = 2; i <= s.length(); i++) {
+        for (int i = 2; i <= n; i++) {
             if (s.charAt(i - 1) != '0') {
                 dp[i] = dp[i - 1];
             }
@@ -16,6 +17,7 @@ class Solution {
                 dp[i] += dp[i - 2];
             }
         }
-        return dp[s.length()];
+
+        return dp[n];
     }
 }
