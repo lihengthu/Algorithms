@@ -1,81 +1,70 @@
-Analysis: 
-    1. 
-
-Solutions:
-
-1. 
+// 1. 自己最直观的解法，从链表反转演化而来 
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
+        int n = 0;
+        ListNode p = head;
+        while (p != null) {
+            n++;
+            p = p.next;
+        }
+
+        int times = n / k;
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        head = dummy;
-        while (true) {
-            head = reverseK(head, k);
-            if (head == null) {
-                break;
-            }
-        }
-        return dummy.next;
-    }
+        ListNode prevK = dummy, prev = null;
 
-    private ListNode reverseK(ListNode head, int k) {
-        ListNode nk = head;
-        for (int i = 0; i < k; ++i) {
-            if (nk == null) {
-                return null;
+        for (int i = 0; i < times; i++) {
+            ListNode first = head;
+            for (int j = 0; j < k; j++) {
+                ListNode next = head.next;
+                head.next = prev;
+                prev = head;
+                head = next;
             }
-            nk = nk.next;
+            prevK.next = prev;
+            first.next = head;
+            prevK = first;
         }
-        if (nk == null) {
-            return null;
-        }
-        ListNode n1 = head.next, nkplus = nk.next;
-        ListNode prev = null, cur = n1;
-        while (cur != nkplus) {
-            ListNode tmp = cur.next;
-            cur.next = prev;
-            prev = cur;
-            cur = tmp;
-        }
-        head.next = nk;
-        n1.next = nkplus;
-        return n1;
+
+        return dummy.next;
     }
 }
 
-2.
+// 2. 相比之下，更优雅
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        if (head == null || k <= 1) {
+        if (head == null || head.next == null || k == 1) {
             return head;
         }
+
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        head = dummy;
-        while (head.next != null) {
-            head = reverseNextK(head, k);
+        ListNode begin = dummy;
+        int i = 0;
+        while (head != null) {
+            i++;
+            if (i % k == 0) {
+                begin = reverse(begin, head.next);
+                head = begin.next;
+            } else {
+                head = head.next;
+            }
         }
+
         return dummy.next;
     }
 
-    private ListNode reverseNextK(ListNode head, int k) {
-        ListNode next = head;
-        for (int i = 0; i < k; ++i) {
-            if (next.next == null) {
-                return next;
-            }
-            next = next.next;
+    private ListNode reverse(ListNode begin, ListNode end) {
+        ListNode curr = begin.next;
+        ListNode prev = begin, first = curr;
+        while (curr != end) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
         }
-        ListNode n1 = head.next;
-        ListNode prev = head, cur = n1;
-        for (int i = 0; i < k; ++i) {
-            ListNode tmp = cur.next;
-            cur.next = prev;
-            prev = cur;
-            cur = tmp;
-        }
-        n1.next = cur;
-        head.next = prev;
-        return n1;
+        begin.next = prev;
+        first.next = curr;
+        return first;
     }
 }

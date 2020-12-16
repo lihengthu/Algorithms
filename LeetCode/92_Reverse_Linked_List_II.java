@@ -1,32 +1,30 @@
+// 变量的命名，有助于记忆和理解算法思路
+
 class Solution {
     public ListNode reverseBetween(ListNode head, int m, int n) {
-        if (head == null || m >= n) {
-            return head;
-        }
-
         ListNode dummy = new ListNode(0);
         dummy.next = head;
         head = dummy;
         for (int i = 1; i < m; i++) {
             if (head == null) {
-                return null;
+                return dummy.next;
             }
             head = head.next;
         }
-
-        ListNode prevmNode = head;
-        ListNode mNode = head.next, nNode = mNode, postnNode = mNode.next;
+        ListNode prevM = head;
+        ListNode mNode = head.next, nNode = mNode, postN = mNode.next;
         for (int i = m; i < n; i++) {
-            if (postnNode == null) {
-                return null;
+            if (postN == null) {
+                return dummy.next;
             }
-            ListNode temp = postnNode.next;
-            postnNode.next = nNode;
-            nNode = postnNode;
-            postnNode = temp;
+            ListNode next = postN.next;
+            postN.next = nNode;
+            nNode = postN;
+            postN = next;
         }
-        mNode.next = postnNode;
-        prevmNode.next = nNode;
+
+        mNode.next = postN;
+        prevM.next = nNode;
 
         return dummy.next;
     }

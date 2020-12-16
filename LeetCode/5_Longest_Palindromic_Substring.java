@@ -1,21 +1,18 @@
 1. DP - O(n^2) - O(n^2)
 class Solution {
     public String longestPalindrome(String s) {
-        if (s == null || s.length() == 0) {
-            return "";
-        }
         int n = s.length();
-        String result = s.substring(0, 1);
+        String result = "";
         boolean[][] dp = new boolean[n][n];
-
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = i; j < n; j++) {
+        for (int j = 0; j < n; j++) {
+            for (int i = 0; i <= j; i++) {
                 dp[i][j] = s.charAt(i) == s.charAt(j) && (j - i + 1 <= 3 || dp[i + 1][j - 1]);
                 if (dp[i][j] && j - i + 1 > result.length()) {
                     result = s.substring(i, j + 1);
                 }
             }
         }
+
         return result;
     }
 }
