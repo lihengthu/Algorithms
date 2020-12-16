@@ -1,4 +1,4 @@
-1. DP - O(n^2) - O(n^2)
+// 1. DP - O(n^2) - O(n^2)
 class Solution {
     public String longestPalindrome(String s) {
         int n = s.length();
@@ -17,7 +17,39 @@ class Solution {
     }
 }
 
-2. O(n) - 马拉车算法 - 最优
+// 2. 
+class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+
+        return s.substring(start, end + 1);
+    }
+
+    private int expandAroundCenter(String s, int left, int right) {
+        int l = left, r = right;
+        while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+            l--;
+            r++;
+        }
+
+        return r - l - 1;
+    }
+}
+
+// 3. O(n) - 马拉车算法 - 最优
 http://jucongyuan.github.io/2017/04/21/%E9%A9%AC%E6%8B%89%E8%BD%A6(Manacher)%E7%AE%97%E6%B3%95/
 class Solution {
     public String longestPalindrome(String s) {
