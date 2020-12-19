@@ -5,10 +5,10 @@ class Solution {
             return 0;
         }
 
-        int min = Integer.MAX_VALUE, profit = 0;
+        int minprice = Integer.MAX_VALUE, profit = 0;
         for (int price : prices) {
-            min = price < min ? price : min;
-            profit = (price - min) > profit ? price - min : profit;
+            minprice = price < minprice ? price : minprice;
+            profit = (price - minprice) > profit ? price - minprice : profit;
         }
 
         return profit;
