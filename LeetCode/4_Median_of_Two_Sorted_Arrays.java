@@ -1,17 +1,15 @@
-Solutions:
-
-1. 
+// 1. https://leetcode.com/problems/median-of-two-sorted-arrays/solution/
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        // 确保nums1长度小于等于nums2
         if (nums1.length > nums2.length) {
-            int[] tmp = nums1;
+            int[] temp = nums1;
             nums1 = nums2;
-            nums2 = tmp;
+            nums2 = temp;
         }
-        int m = nums1.length;
-        int n = nums2.length;
-        int imin = 0, imax = m;
-        int halfLen = (m + n + 1) >> 1;
+
+        int m = nums1.length, n = nums2.length;
+        int imin = 0, imax = m, halfLen = (m + n + 1) / 2;
         double result = 0;
         while (imin <= imax) {
             int i = (imin + imax) >> 1;
@@ -21,25 +19,67 @@ class Solution {
             } else if (i > 0 && nums1[i - 1] > nums2[j]) {
                 imax = i - 1;
             } else {
-                double leftMax = 0, rightMin = 0;
+                double lMax = 0, rMin = 0;
                 if (i == 0) {
-                    leftMax = nums2[j - 1];
+                    lMax = nums2[j - 1];
                 } else if (j == 0) {
-                    leftMax = nums1[i - 1];
-                } else leftMax = Math.max(nums1[i - 1], nums2[j - 1]);
+                    lMax = nums1[i - 1];
+                } else {
+                    lMax = Math.max(nums1[i - 1], nums2[j - 1]);
+                }
                 if (((m + n) & 1) == 1) {
-                    result = leftMax;
+                    result = lMax;
                     break;
                 }
+
                 if (i == m) {
-                    rightMin = nums2[j];
+                    rMin = nums2[j];
                 } else if (j == n) {
-                    rightMin = nums1[i];
-                } else rightMin = Math.min(nums1[i], nums2[j]);
-                result = (leftMax + rightMin) / 2;
+                    rMin = nums1[i];
+                } else {
+                    rMin = Math.min(nums1[i], nums2[j]);
+                }
+                result = (lMax + rMin) / 2;
                 break;
             }
         }
+
         return result;
+    }
+}
+
+// 2. https://www.jiuzhang.com/solution/median-of-two-sorted-arrays/#tag-lang-ALL
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int n = nums1.length + nums2.length;
+        if (n % 2 == 0) {
+            return (findKth(nums1, nums2, 0, 0, n / 2) +
+                    findKth(nums1, nums2, 0, 0, n / 2 + 1)) / 2.0;
+        }
+
+        return findKth(nums1, nums2, 0, 0, n / 2 + 1);
+    }
+
+    // find kth num of 2 sorted array
+    private int findKth(int[] A, int[] B, int startA, int startB, int k) {
+        if (startA >= A.length) {
+            return B[startB + k - 1];
+        }
+        if (startB >= B.length) {
+            return A[startA + k - 1];
+        }
+
+        if (k == 1) {
+            return Math.min(A[startA], B[startB]);
+        }
+
+        int halfKthOfA = startA + k / 2 - 1 < A.length ? A[startA + k / 2 - 1] : Integer.MAX_VALUE;
+        int halfKthOfB = startB + k / 2 - 1 < B.length ? B[startB + k / 2 - 1] : Integer.MAX_VALUE;
+
+        if (halfKthOfA < halfKthOfB) {
+            return findKth(A, B, startA + k / 2, startB, k - k / 2);
+        } else {
+            return findKth(A, B, startA, startB + k / 2, k - k / 2);
+        }
     }
 }
