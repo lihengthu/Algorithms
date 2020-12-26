@@ -1,23 +1,24 @@
-Analysis: 
-    1. Two Pointers
-
-Solutions:
-
-1. 
-public class Solution {
+class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null || head.next == null) return head;
-        ListNode dummy = new ListNode(-1);
-        dummy.next = head;
-        ListNode pre = dummy, cur = head;
-        while (cur != null) {
-            while (cur.next != null && cur.val == cur.next.val)
-                cur = cur.next;
-            if (pre.next == cur)
-                pre = pre.next;
-            else pre.next = cur.next;
-            cur = cur.next;
+        if (head == null || head.next == null) {
+            return head;
         }
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode l = dummy, r = head;
+        while (r != null) {
+            while (r.next != null && r.val == r.next.val) {
+                r = r.next;
+            }
+            if (l.next == r) {
+                l = l.next;
+            } else {
+                l.next = r.next;
+            }
+            r = r.next;
+        }
+
         return dummy.next;
     }
 }

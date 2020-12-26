@@ -3,12 +3,14 @@ class Solution {
         if (nums == null || nums.length == 0) {
             return 0;
         }
-        int size = 0;
-        for (int i = 0; i < nums.length; ++i){
-            if (nums[i] != nums[size]){
-                nums[++size] = nums[i];
+
+        int l = 0;
+        for (int r = 0; r < nums.length; r++) {
+            if (nums[r] != nums[l]) {
+                nums[++l] = nums[r];
             }
         }
-        return size + 1;
+
+        return l + 1;
     }
 }

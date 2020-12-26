@@ -3,18 +3,20 @@ class Solution {
         if (nums == null || nums.length == 0) {
             return 0;
         }
-        int index = 0, cnt = 1;
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] == nums[index]) {
+
+        int l = 0, cnt = 1;
+        for (int r = 1; r < nums.length; r++) {
+            if (nums[r] == nums[l]) {
                 if (cnt < 2) {
-                    nums[++index] = nums[i];
+                    nums[++l] = nums[r];
                     cnt++;
                 }
             } else {
-                nums[++index] = nums[i];
+                nums[++l] = nums[r];
                 cnt = 1;
             }
         }
-        return index + 1;
+
+        return l + 1;
     }
 }
