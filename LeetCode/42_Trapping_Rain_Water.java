@@ -1,18 +1,25 @@
+// 1. O(N) - O(1)
 class Solution {
     public int trap(int[] height) {
-        if (height == null || height.length == 0) {
+        if (height == null || height.length <= 1) {
             return 0;
         }
-        int[] lmax = new int[height.length];
-        lmax[0] = 0;
-        for (int i = 0; i < height.length - 1; ++i) {
-            lmax[i + 1] = Math.max(lmax[i], height[i]);
+
+        int n = height.length, result = 0;
+        int l = 0, r = n - 1;
+        int lmax = height[l], rmax = height[r];
+        while (l < r) {
+            lmax = Math.max(lmax, height[l]);
+            rmax = Math.max(rmax, height[r]);
+            if (lmax < rmax) {
+                result += lmax - height[l];
+                l++;
+            } else {
+                result += rmax - height[r];
+                r--;
+            }
         }
-        int max = 0, area = 0;
-        for (int i = height.length - 1; i >= 0; --i) {
-            area += Math.min(max, lmax[i]) > height[i] ? Math.min(max, lmax[i]) - height[i] : 0;
-            max = Math.max(max, height[i]);
-        }
-        return area;
+
+        return result;
     }
 }
