@@ -1,21 +1,16 @@
+// 1. Discuss, BFS
 class Solution {
     public int jump(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        int start = 0, end = 0, jumps = 0;
-        while (end < nums.length - 1) {
-            ++jumps;
-            int farthest = end;
-            for (int i = start; i <= end; ++i) {
-                if (nums[i] + i > farthest) {
-                    farthest = nums[i] + i;
-                }
+        int n = nums.length;
+        int end = 0, jumps = 0, reach = 0;
+        for (int i = 0; i < n - 1; i++) {
+            reach = Math.max(reach, i + nums[i]);
+            if (i == end) {
+                jumps++;
+                end = reach;
             }
-            start = end + 1;
-            end = farthest;
         }
+
         return jumps;
     }
-
 }
