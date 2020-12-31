@@ -1,54 +1,27 @@
-
-Solutions: 
-
-1.
 class Solution {
     public boolean isValid(String s) {
+        if (s == null || s.length() == 0) {
+            return true;
+        }
+
         Stack<Character> stack = new Stack<>();
-        for (Character c : s.toCharArray()) {
-            if ("([{".contains(String.valueOf(c))) {
-                stack.push(c);
+        Map<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put(']', '[');
+        map.put('}', '{');
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '(' || ch == '[' || ch == '{') {
+                stack.push(ch);
             } else {
-                if (!stack.isEmpty() && is_valid(stack.peek(), c)) {
-                    stack.pop();
-                } else {
+                if (stack.isEmpty() || stack.peek() != map.get(ch)) {
                     return false;
                 }
+                stack.pop();
             }
         }
-        return stack.isEmpty();
-    }
 
-    private boolean is_valid(char c1, char c2) {
-        return (c1 == '(' && c2 == ')') || (c1 == '[' && c2 == ']')
-                || (c1 == '{' && c2 == '}');
-    }
-}
-
-2. 
-class Solution {
-    public boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
-        for (Character c : s.toCharArray()) {
-            if (c == '(' || c == '[' || c == '{') {
-                stack.push(c);
-            }
-            if (c == ')') {
-                if (stack.isEmpty() || stack.pop() != '(') {
-                    return false;
-                }
-            }
-            if (c == ']') {
-                if (stack.isEmpty() || stack.pop() != '[') {
-                    return false;
-                }
-            }
-            if (c == '}') {
-                if (stack.isEmpty() || stack.pop() != '{') {
-                    return false;
-                }
-            }
-        }
         return stack.isEmpty();
     }
 }
