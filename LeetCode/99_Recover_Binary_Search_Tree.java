@@ -1,4 +1,5 @@
 // 1. Recursive
+// 上来可能很懵b，对于树，没有思路可以先往各种遍历上想
 class Solution {
     private TreeNode first = null;
     private TreeNode second = null;
@@ -15,7 +16,7 @@ class Solution {
         if (root == null) {
             return;
         }
-
+        // 中序遍历的活用
         traverse(root.left);
         if (first == null && root.val < prev.val) {
             first = prev;
