@@ -1,4 +1,26 @@
-// 直接查找的O(n)的方法也要会写
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length, n = nums2.length;
+
+        int i = 0, j = 0, k = 0;
+        int left = -1, right = -1;
+
+        while (k < (m + n) / 2 + 1) {
+            left = right;
+
+            if (j >= n || i < m && nums1[i] <= nums2[j]) {
+                right = nums1[i++];
+            } else {
+                right = nums2[j++];
+            }
+
+            k++;
+        }
+
+        return (m + n) % 2 == 1 ? right : (left + right) / 2.0;
+    }
+}
+
 // 详细解释：https://leetcode.cn/problems/median-of-two-sorted-arrays/solutions/258842/xun-zhao-liang-ge-you-xu-shu-zu-de-zhong-wei-s-114/
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
