@@ -17,6 +17,45 @@ class Solution {
     }
 }
 
+class Solution {
+    public String longestPalindrome(String s) {
+        int n = s.length();
+
+        String res = String.valueOf(s.charAt(0));
+        int[][] dp = new int[n][n];
+
+        for (int i = 0; i < n; ++i) {
+            dp[i][i] = 1;
+        }
+
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i + 1; j < n; ++j) {
+                char l = s.charAt(i);
+                char r = s.charAt(j);
+
+                if (l != r) {
+                    dp[i][j] = 0;
+                } else {
+                    int len = 2;
+                    if (i + 1 > j - 1) {
+                        dp[i][j] = 1;
+                    } else if (dp[i + 1][j - 1] == 1) {
+                        len = j - i + 1;
+                        dp[i][j] = 1;
+                    }
+
+                    if (dp[i][j] == 1 && len > res.length()) {
+                        res = s.substring(i, j + 1);
+                    }
+                }
+
+            }
+        }
+
+        return res;
+    }
+}
+
 // 2. 
 class Solution {
     public String longestPalindrome(String s) {
