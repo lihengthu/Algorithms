@@ -21,3 +21,31 @@ class Solution {
         return result;
     }
 }
+
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+
+        if (root == null) {
+            return res;
+        }
+
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode curr = root;
+        while (curr != null || !s.isEmpty()) {
+            while (curr != null) {
+                s.push(curr);
+
+                // 遍历顺序等于入栈顺序
+                res.add(curr.val);
+
+                curr = curr.left;
+            }
+
+            curr = s.pop();
+            curr = curr.right;
+        }
+
+        return res;
+    }
+}

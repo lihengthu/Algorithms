@@ -54,6 +54,8 @@ class Solution {
         return dummy.next;
     }
 
+    // begin 和 end 分别是k个节点的前后一个节点
+    // 优点是部分反转时，链不断
     private ListNode reverse(ListNode begin, ListNode end) {
         ListNode curr = begin.next;
         ListNode prev = begin, first = curr;
