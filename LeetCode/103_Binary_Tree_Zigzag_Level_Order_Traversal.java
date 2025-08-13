@@ -1,34 +1,41 @@
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
+
         if (root == null) {
-            return result;
+            return res;
         }
 
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        boolean flag = true;
+        Queue<TreeNode> s = new LinkedList<>();
 
-        while (!queue.isEmpty()) {
+        // 初始化
+        s.offer(root);
+        int level = 0;
+        while (!s.isEmpty()) {
+            int cnt = s.size();
             List<Integer> list = new ArrayList<>();
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                TreeNode temp = queue.poll();
-                if (flag) {
-                    list.add(temp.val);
+            for (int i = 0; i < cnt; ++i) {
+                TreeNode curr = s.poll();
+
+                // 根据层数奇偶，判断在List首 or 尾插入
+                if (level % 2 == 0) {
+                    list.add(curr.val);
                 } else {
-                    list.add(0, temp.val);
+                    list.add(0, curr.val);
                 }
-                if (temp.left != null) {
-                    queue.offer(temp.left);
+
+                if (curr.left != null) {
+                    s.offer(curr.left);
                 }
-                if (temp.right != null) {
-                    queue.offer(temp.right);
+                if (curr.right != null) {
+                    s.offer(curr.right);
                 }
             }
-            result.add(list);
-            flag = !flag;
+
+            res.add(list);
+            level++;
         }
-        return result;
+
+        return res;
     }
 }

@@ -29,6 +29,38 @@ class Solution {
     }
 }
 
+// 基于层次遍历,更好理解
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int sum = 0;
+        Queue<TreeNode> nodeQueue = new LinkedList<TreeNode>();
+        Queue<Integer> numQueue = new LinkedList<Integer>();
+        nodeQueue.offer(root);
+        numQueue.offer(root.val);
+        while (!nodeQueue.isEmpty()) {
+            TreeNode node = nodeQueue.poll();
+            int num = numQueue.poll();
+            TreeNode left = node.left, right = node.right;
+            if (left == null && right == null) {
+                sum += num;
+            } else {
+                if (left != null) {
+                    nodeQueue.offer(left);
+                    numQueue.offer(num * 10 + left.val);
+                }
+                if (right != null) {
+                    nodeQueue.offer(right);
+                    numQueue.offer(num * 10 + right.val);
+                }
+            }
+        }
+        return sum;
+    }
+}
+
 // 2. Recursive
 class Solution {
     public int sumNumbers(TreeNode root) {

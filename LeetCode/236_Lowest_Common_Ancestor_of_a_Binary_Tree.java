@@ -16,34 +16,40 @@ class Solution {
 
 }
 
-// Iterative
 class Solution {
+    // 不用Map<TreeNode, TreeNode> 可以避免根节点的<root, null>
+    public Map<Integer, TreeNode> parent = new HashMap<>();
+    public Set<Integer> visited = new HashSet<>();
+
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        Map<TreeNode, TreeNode> parent = new HashMap<>();
-        parent.put(root, null);
-        queue.offer(root);
-        while (!parent.containsKey(p) || !parent.containsKey(q)) {
-            TreeNode curr = queue.poll();
-            if (curr.left != null) {
-                parent.put(curr.left, curr);
-                queue.offer(curr.left);
-            }
-            if (curr.right != null) {
-                parent.put(curr.right, curr);
-                queue.offer(curr.right);
-            }
-        }
+        dfs(root);
 
-        Set<TreeNode> ancestors = new HashSet<>();
+        // 先找p的全部父节点
         while (p != null) {
-            ancestors.add(p);
-            p = parent.get(p);
-        }
-        while (!ancestors.contains(q)) {
-            q = parent.get(q);
+            visited.add(p.val);
+            p = parent.get(p.val);
         }
 
-        return q;
+        // 自底向上看q的父节点
+        while (q != null) {
+            if (visited.contains(q.val)) {
+                return q;
+            }
+            q = parent.get(q.val);
+        }
+
+        return root;
+    }
+
+    public void dfs(TreeNode root) {
+        if (root.left != null) {
+            parent.put(root.left.val, root);
+            dfs(root.left);
+        }
+
+        if (root.right != null) {
+            parent.put(root.right.val, root);
+            dfs(root.right);
+        }
     }
 }
